@@ -57,12 +57,6 @@ int readDHT(int type, int pin) {
   int laststate = 1;
   int j=0;
 
-
-
-
-
-
-
   digitalWrite(inPin,1);
   //bcm2835_gpio_write(pin, HIGH);
   usleep(500000);  // 500 ms
