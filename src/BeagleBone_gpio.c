@@ -74,6 +74,7 @@ void digitalWrite_multiple(struct gpioID selected_GPIOs[], int nbr_selectedPins,
 
 }
 
+/*
 void pinMode_multiple(struct gpioID selected_GPIOs[],int selectedPins[], int nbr_selectedPins, const char *direction)
 {
 	int i;
@@ -88,6 +89,7 @@ void pinMode_multiple(struct gpioID selected_GPIOs[],int selectedPins[], int nbr
 		pinMode(&selected_GPIOs[i],selectedPins[i],direction);
 	}
 }
+*/
 
 void pinMode(struct gpioID *singlePin,int pinID, const char *direction)
 {
@@ -190,7 +192,32 @@ void pinMode(struct gpioID *singlePin,int pinID, const char *direction)
 
     	if (strncmp(direction,"out",3) == 0)
 		{
-			//set mux to mode 7
+			//from LearnBuildShare
+    		FILE *outputHandle=NULL;
+			char setValue[4], GPIOString[4], GPIOValue[64], GPIODirection[64];
+			sprintf(GPIOString,"%d",singlePin->GPIONUMBER);
+			sprintf(GPIOValue,"/sys/class/gpio/gpio%d/value",singlePin->GPIONUMBER);
+			sprintf(GPIODirection,"/sys/class/gpio/gpio%d/direction",singlePin->GPIONUMBER);
+			//Export the pin
+			if((outputHandle=fopen("/sys/class/gpio/export","ab"))==NULL){
+				printf("Unable to export pin\n");
+				return;
+			}
+			strcpy(setValue,GPIOString);
+			fwrite(&setValue, sizeof(char),2,outputHandle);
+			fclose(outputHandle);
+
+			// Set direction of the pin to an output
+			    if ((outputHandle = fopen(GPIODirection, "rb+")) == NULL){
+			        printf("Unable to open direction handle\n");
+			        return;
+			    }
+			    strcpy(setValue,"out");
+			    fwrite(&setValue, sizeof(char), 3, outputHandle);
+			    fclose(outputHandle);
+
+/*
+    		//set mux to mode 7
 	 		//sprintf(export_filename, "/sys/kernel/debug/omap_mux/%s", singlePin->GPIOMUX);
     		sprintf(export_filename,"/sys/class/gpio%d",singlePin->GPIONUMBER);
 			f = fopen(export_filename,"w");
@@ -204,8 +231,9 @@ void pinMode(struct gpioID *singlePin,int pinID, const char *direction)
         	}
         	fprintf(f, "7");
         	pclose(f);
+        	*/
 		}
-
+/*
 		//export the pin
 		f = fopen("/sys/class/gpio/export","w");
 
@@ -218,6 +246,7 @@ void pinMode(struct gpioID *singlePin,int pinID, const char *direction)
         }
         fprintf(f, "%d",singlePin->GPIONUMBER);
         pclose(f);
+        */
 
 		if (strncmp(direction,"out",3) == 0)
 		{
