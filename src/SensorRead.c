@@ -1,5 +1,5 @@
 
-#include <BeagleBone_gpio.h>
+#include "BeagleBone_gpio.h"
 
 #define MAXTIMINGS 100
 #define DHT11 11
@@ -49,40 +49,55 @@ int readDHT(int type, int pin) {
   int laststate = 1;
   int j=0;
 
+  struct gpioID inPin;
+
+
+  /*
+   * struct gpioID
+{
+	char PINNAME[10];   //eg. P8_3
+	char GPIOID[10]; 	//e.g: gpio1[6]
+	int GPIONUMBER;     //e.g: 38
+	char GPIOMUX[10];   //e.g: gpmc_ad6;
+};
+   *
+   */
+
   // Set GPIO pin to output
-  pinMode(pin,"out");
+  pinMode(&inPin,pin,"out");
   //bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
 
-  digitalWrite(pin,1);
+  digitalWrite(inPin,1);
   //bcm2835_gpio_write(pin, HIGH);
   usleep(500000);  // 500 ms
-  digitalWrite(pin,0);
+  digitalWrite(inPin,0);
   //bcm2835_gpio_write(pin, LOW);
   usleep(20000);
 
   //Set pin to input
-  pinMode(pin,"in");
+  pinMode(&inPin,pin,"in");
   //bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
 
   data[0] = data[1] = data[2] = data[3] = data[4] = 0;
 
   // wait for pin to drop?
   //while (bcm2835_gpio_lev(pin) == 1) {
-  while (digitalRead(pin) == 1) {
+  while (digitalRead(inPin) == 1) {
     usleep(1);
   }
 
   // read data!
-  for (int i=0; i< MAXTIMINGS; i++) {
+  int i;
+  for (i=0; i< MAXTIMINGS; i++) {
     counter = 0;
     //while ( bcm2835_gpio_lev(pin) == laststate) {
-    while ( digitalRead(pin) == laststate) {
+    while ( digitalRead(inPin) == laststate) {
 	counter++;
 	//nanosleep(1);		// overclocking might change this?
         if (counter == 1000)
 	  break;
     }
-    laststate = digitalRead; //bcm2835_gpio_lev(pin);
+    laststate = digitalRead(inPin); //bcm2835_gpio_lev(pin);
     if (counter == 1000) break;
     bits[bitidx++] = counter;
 
