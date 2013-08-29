@@ -46,26 +46,27 @@ int bitidx = 0;
 int readDHT(int type, int pin) {
   int counter = 0;
   //int laststate = HIGH;
-  int laststate = 1;
-  int j=0;
 
   struct gpioID inPin;
-
-
-  /*
-   * struct gpioID
-{
-	char PINNAME[10];   //eg. P8_3
-	char GPIOID[10]; 	//e.g: gpio1[6]
-	int GPIONUMBER;     //e.g: 38
-	char GPIOMUX[10];   //e.g: gpmc_ad6;
-};
-   *
-   */
-
   // Set GPIO pin to output
   pinMode(&inPin,pin,"out");
   //bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
+
+
+  char export_filename[50];
+  FILE *f = NULL;
+  sprintf(export_filename, "/sys/kernel/debug/omap_mux/%s", inPin.GPIOMUX);
+          f = fopen(export_filename,"w");
+
+
+  int laststate = 1;
+  int j=0;
+
+
+
+
+
+
 
   digitalWrite(inPin,1);
   //bcm2835_gpio_write(pin, HIGH);
