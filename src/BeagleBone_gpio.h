@@ -13,18 +13,18 @@
 
 //The following #defines make it easier for the user to add differnt pins
 //Changed ASR
-#define P8_3  3
-#define P8_4  4
-#define P8_5  5
-#define P8_11 11
-#define P8_12 12
-#define P8_14 14
-#define P8_15 15
-#define P8_16 16
-#define P8_17 17
-#define P8_20 20
-#define P8_21 21
-#define P9_12 60
+#define P8_3  0
+#define P8_4  1
+#define P8_5  2
+#define P8_11 3
+#define P8_12 4
+#define P8_14 5
+#define P8_15 6
+#define P8_16 7
+#define P8_17 8
+#define P8_20 9
+#define P8_21 10
+#define P9_12 11
 
 #define DEBUG_GPIO 0
 
