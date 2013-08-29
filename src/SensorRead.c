@@ -52,13 +52,6 @@ int readDHT(int type, int pin) {
   pinMode(&inPin,pin,"out");
   //bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
 
-
-  char export_filename[50];
-  FILE *f = NULL;
-  sprintf(export_filename, "/sys/kernel/debug/omap_mux/%s", inPin.GPIOMUX);
-          f = fopen(export_filename,"w");
-
-
   int laststate = 1;
   int j=0;
 
