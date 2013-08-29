@@ -108,9 +108,10 @@ int readDHT(int type, int pin) {
 
 
 #ifdef DEBUG
-  for (int i=3; i<bitidx; i+=2) {
-    printf("bit %d: %d\n", i-3, bits[i]);
-    printf("bit %d: %d (%d)\n", i-2, bits[i+1], bits[i+1] > 200);
+  int k;
+  for (k=3; k<bitidx; k+=2) {
+    printf("bit %d: %d\n", k-3, bits[k]);
+    printf("bit %d: %d (%d)\n", k-2, bits[k+1], bits[k+1] > 200);
   }
 #endif
 
