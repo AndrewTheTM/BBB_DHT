@@ -269,7 +269,7 @@ void pinMode(struct gpioID *singlePin,int pinID, const char *direction)
         else
         {
         	//right now, only P9_12 can be an input port...
-        	assert(singlePin->GPIONUMBER==60);
+        	//assert(singlePin->GPIONUMBER==60);
         }
 
         if (DEBUG_GPIO)
