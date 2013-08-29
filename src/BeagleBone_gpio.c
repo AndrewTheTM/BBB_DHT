@@ -191,12 +191,13 @@ void pinMode(struct gpioID *singlePin,int pinID, const char *direction)
     	if (strncmp(direction,"out",3) == 0)
 		{
 			//set mux to mode 7
-	 		sprintf(export_filename, "/sys/kernel/debug/omap_mux/%s", singlePin->GPIOMUX);
+	 		//sprintf(export_filename, "/sys/kernel/debug/omap_mux/%s", singlePin->GPIOMUX);
+    		sprintf(export_filename,"/sys/class/gpio%d",singlePin->GPIONUMBER);
 			f = fopen(export_filename,"w");
 
 			if (f == NULL)
 			{
-        	 	printf( "\nERROR: There was a problem opening /sys/kernel/debug/omap_mux/%s\n", singlePin->GPIOMUX);
+        	 	printf( "\nERROR: There was a problem opening /sys/class/gpio%d\n", singlePin->GPIONUMBER);
 				printf("\n%s\t%s\t%s\t%d\n\n", singlePin->PINNAME, singlePin->GPIOID, singlePin->GPIOMUX, singlePin->GPIONUMBER);
 
 				assert(f!=NULL);
