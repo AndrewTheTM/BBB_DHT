@@ -6,6 +6,8 @@
 #define DHT22 22
 #define AM2302 22
 
+#define DEBUG 1
+
 int readDHT(int type, int pin);
 
 int main(int argc, char **argv)
